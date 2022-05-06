@@ -75,8 +75,13 @@ public class SnakesAndLaddersGame {
         }else if (isNameExist==false && isColorExist==true){
             System.out.println("The color is already taken!");
             return false;
+        }else {
+            GamePiece gamePiece = new GamePiece(Color.valueOf(color));
+            players[number_of_players] = new Player(name, gamePiece);
+            number_of_players++;
         }
         return true;
+
     }
 
     public boolean isLadderValid(int ladderLength, int startSquare){
@@ -92,9 +97,12 @@ public class SnakesAndLaddersGame {
         Square currentSquare=gameBoard.getSquares()[startSquare-1];
         if (currentSquare.getSnake()!=null){
             System.out.println("This square already contains a head of a snake !");
+            return false;
         }
         if (currentSquare.getLadder()!=null){
             System.out.println("This square contains a bottom of a ladder !");
+            return false;
+
         }
         return true;
     }
@@ -110,11 +118,12 @@ public class SnakesAndLaddersGame {
         Square currentSquare=gameBoard.getSquares()[startSquare-1];
         if (currentSquare.getSnake()!=null){
             System.out.println("This square already contains a head of a snake !");
+            return false;
         }
         if (currentSquare.getLadder()!=null){
             System.out.println("This square contains a bottom of a ladder !");
+            return false;
         }
-        //add more conditions about the square
         return true;
     }
     public String start(){
