@@ -4,13 +4,15 @@ public class SnakesAndLaddersGame {
     private Player[] players;
     private int number_of_players;
     private GameBoard gameBoard;
-    private static int MIN_SQUARE=1;
-    private static int MAX_SQUARE=100;
+    private final int MIN_SQUARE=1;
+    private final int MAX_SQUARE=100;
+    private Die die;
 
 
 
     public SnakesAndLaddersGame(int maxDieValue,int minDieValue) {
         number_of_players=0;
+        die=new Die(maxDieValue,minDieValue);
         this.gameBoard=new GameBoard();
     }
     public SnakesAndLaddersGame() {
@@ -18,6 +20,7 @@ public class SnakesAndLaddersGame {
     }
 
     public void initializeGame(){
+        System.out.println("Intializing the game...");
         Scanner scanner=Main.scanner;
         String currentLine;
         do{
@@ -127,7 +130,7 @@ public class SnakesAndLaddersGame {
         return true;
     }
     public String start(){
-       sort(players);
+        sort(players);
         String winner="";
         int roundNumber=0,steps=0;
         while(winner!=""){
@@ -146,22 +149,29 @@ public class SnakesAndLaddersGame {
                     printNextSquare(currentSquare, steps);
                     players[i].getGamePiece().setCurrentSquare(2*MAX_SQUARE-(currentSquare + steps));
                 }
+                if (players[i].getGamePiece().getCurrentSquare()==MAX_SQUARE){
+                    return players[i].getName();
+                }
                 boolean finishedTurn=false;
                 while (finishedTurn==false) {
                     currentSquare=players[i].getGamePiece().getCurrentSquare();
                     if (gameBoard.getSquares()[currentSquare].getSnake()!=null){
-                        steps-=gameBoard.getSquares()[currentSquare].getSnake().getLength();
+                        steps=-1*gameBoard.getSquares()[currentSquare].getSnake().getLength();
                     }else if (gameBoard.getSquares()[currentSquare].getLadder()!=null){
-                        steps+=gameBoard.getSquares()[currentSquare].getSnake().getLength();
+                        steps=gameBoard.getSquares()[currentSquare].getSnake().getLength();
                     }else{
                         finishedTurn=true;
                     }
                     printNextSquare(currentSquare, steps);
                     players[i].getGamePiece().setCurrentSquare(currentSquare + steps);
-                    //check if winner
+                    if (players[i].getGamePiece().getCurrentSquare()==MAX_SQUARE){
+                       return players[i].getName();
                     }
                 }
-        
+            }
+
+        }
+        return "";
     }
     public void printNextSquare(int currentSquare,int steps){
         if (currentSquare + steps<MAX_SQUARE) {
@@ -197,6 +207,5 @@ public class SnakesAndLaddersGame {
             swap(list, length-1, index_of_min);
         }
     }
-
 
 }
