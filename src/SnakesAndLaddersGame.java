@@ -127,7 +127,79 @@ public class SnakesAndLaddersGame {
         return true;
     }
     public String start(){
+       sort(players);
+        String winner="";
+        int roundNumber=0,steps=0;
+        while(winner!=""){
+            System.out.println("------------------------- Round number "+roundNumber+" -------------------------");
+            for (int i = 0; i < number_of_players; i++) {
+                steps=this.die.roll();
+                System.out.print(players[i].getName()+ " rolled "+steps+". The path to the next square: ");
+                int currentSquare=players[i].getGamePiece().getCurrentSquare();
+                if (currentSquare + steps < MAX_SQUARE && currentSquare + steps > MIN_SQUARE) {
+                    printNextSquare(currentSquare, steps);
+                    players[i].getGamePiece().setCurrentSquare(currentSquare + steps);
+                }else if (currentSquare + steps <= MIN_SQUARE) {
+                    printNextSquare(currentSquare, -1*currentSquare+1);
+                    players[i].getGamePiece().setCurrentSquare(MIN_SQUARE);
+                }else {
+                    printNextSquare(currentSquare, steps);
+                    players[i].getGamePiece().setCurrentSquare(2*MAX_SQUARE-(currentSquare + steps));
+                }
+                boolean finishedTurn=false;
+                while (finishedTurn==false) {
+                    currentSquare=players[i].getGamePiece().getCurrentSquare();
+                    if (gameBoard.getSquares()[currentSquare].getSnake()!=null){
+                        steps-=gameBoard.getSquares()[currentSquare].getSnake().getLength();
+                    }else if (gameBoard.getSquares()[currentSquare].getLadder()!=null){
+                        steps+=gameBoard.getSquares()[currentSquare].getSnake().getLength();
+                    }else{
+                        finishedTurn=true;
+                    }
+                    printNextSquare(currentSquare, steps);
+                    players[i].getGamePiece().setCurrentSquare(currentSquare + steps);
+                    //check if winner
+                    }
+                }
+
+
+        }
         return "";
     }
+    public void printNextSquare(int currentSquare,int steps){
+        if (currentSquare + steps<MAX_SQUARE) {
+            System.out.print(currentSquare + " -> " + currentSquare + steps);
+        }else{
+            System.out.print(currentSquare + " -> "+ (2*MAX_SQUARE-(currentSquare + steps)));
+        }
+
+    }
+    public boolean isWinner(){
+        return false;
+    }
+    public static void swap(Player[] list, int index1, int index2){
+        Player temp = list[index1];
+        list[index1] = list[index2];
+        list[index2] = temp;
+    }
+
+    public static int index_of_min(Player[] list,int length){
+        int index_of_min=0;
+        for (int i=1;i<length; i++){
+            if(list[i].getName().compareTo(list[index_of_min].getName())>0){
+                index_of_min=i;
+            }
+        }
+        return index_of_min;
+    }
+
+    public static void sort(Player[] list){
+        int length=list.length;
+        for (; length > 1; length--){
+            int index_of_min= index_of_min(list, length);
+            swap(list, length-1, index_of_min);
+        }
+    }
+
 
 }
