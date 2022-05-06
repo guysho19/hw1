@@ -161,10 +161,7 @@ public class SnakesAndLaddersGame {
                     //check if winner
                     }
                 }
-
-
-        }
-        return "";
+        
     }
     public void printNextSquare(int currentSquare,int steps){
         if (currentSquare + steps<MAX_SQUARE) {
