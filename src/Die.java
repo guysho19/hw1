@@ -4,7 +4,7 @@ public class Die {
     private int minRandomValue;
     private int maxRandomValue;
 
-    public Die(int minRandomValue, int maxRandomValue) {
+    public Die(int maxRandomValue, int minRandomValue) {
         this.minRandomValue = minRandomValue;
         this.maxRandomValue = maxRandomValue;
     }
@@ -13,7 +13,9 @@ public class Die {
         this(1,6);
     }
     public int roll(){
-    return this.minRandomValue+(Main.rnd=new Random()).nextInt(maxRandomValue-minRandomValue+1);
+        int randomRoll=this.minRandomValue+(Main.rnd=new Random()).nextInt(maxRandomValue-minRandomValue+1);
+        System.out.println(randomRoll);
+        return randomRoll;
     }
 
     public int getMinRandomValue() {
