@@ -30,10 +30,18 @@ public class SnakesAndLaddersGame {
                             isPlayerValid(subString[2],subString[3]);
                             break;
                         case "ladder":
-                            isLadderValid(Integer.parseInt(subString[2]),Integer.parseInt(subString[3]));
+                            int length=Integer.parseInt(subString[2]),startSquare=Integer.parseInt(subString[3]);
+                            if (isLadderValid(length,startSquare)){
+                                Ladder l=new Ladder(length);
+                                gameBoard.getSquares()[startSquare-1].setLadder(l);
+                            }
                             break;
                         case "snake":
-                            isSnakeValid(Integer.parseInt(subString[2]),Integer.parseInt(subString[3]));
+                            int length2=Integer.parseInt(subString[2]),startSquare2=Integer.parseInt(subString[3]);
+                            if (isSnakeValid(length2,startSquare2)){
+                                Snake s=new Snake(length2);
+                                gameBoard.getSquares()[startSquare2-1].setSnake(s);
+                            }
                             break;
                     }
                 }
@@ -67,10 +75,6 @@ public class SnakesAndLaddersGame {
         }else if (isNameExist==false && isColorExist==true){
             System.out.println("The color is already taken!");
             return false;
-        }else{
-            GamePiece gamePiece=new GamePiece(Color.valueOf(color));
-            players[number_of_players]=new Player(name,gamePiece);
-            number_of_players++;
         }
         return true;
     }

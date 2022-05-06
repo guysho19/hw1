@@ -19,4 +19,12 @@ public class Square {
     public Snake getSnake() {
         return snake;
     }
+
+    public void setLadder(Ladder ladder) {
+        this.ladder = ladder;
+    }
+
+    public void setSnake(Snake snake) {
+        this.snake = snake;
+    }
 }
